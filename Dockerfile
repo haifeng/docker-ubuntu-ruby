@@ -29,7 +29,7 @@ RUN apt-get update \
 &&  apt-get clean \
 &&  rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-RUN curl --silent --location https://deb.nodesource.com/setup_8.x | bash - \
+RUN curl --silent --location https://deb.nodesource.com/setup_13.x | bash - \
     && apt-get install -y nodejs \
     && npm -g up
 
