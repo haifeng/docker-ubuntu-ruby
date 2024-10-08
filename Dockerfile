@@ -26,6 +26,7 @@ RUN apt-get update \
     xvfb \
     python \
     tzdata \
+    python2.7 \
 &&  apt-get clean \
 &&  rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
@@ -35,8 +36,11 @@ RUN curl --silent --location https://deb.nodesource.com/setup_13.x | bash - \
 
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 
-RUN wget https://bootstrap.pypa.io/get-pip.py \
-&&  python get-pip.py
+
+RUN apt-get update \
+&&  apt-get install -y python2.7 \
+&&  wget https://bootstrap.pypa.io/pip/2.7/get-pip.py \
+&&  python2.7 get-pip.py
 
 ENV LANG=en_US.UTF-8
 RUN update-locale LANG=en_US.UTF-8
@@ -44,9 +48,9 @@ RUN update-locale LANG=en_US.UTF-8
 RUN echo "America/Toronto" > /etc/timezone \
 &&  dpkg-reconfigure -f noninteractive tzdata
 
-RUN git clone git://github.com/rbenv/rbenv.git /usr/local/rbenv \
-&&  git clone git://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
-&&  git clone git://github.com/jf/rbenv-gemset.git /usr/local/rbenv/plugins/rbenv-gemset \
+RUN git clone https://github.com/rbenv/rbenv.git /usr/local/rbenv \
+&&  git clone https://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build \
+&&  git clone https://github.com/jf/rbenv-gemset.git /usr/local/rbenv/plugins/rbenv-gemset \
 &&  /usr/local/rbenv/plugins/ruby-build/install.sh
 ENV PATH /usr/local/rbenv/bin:$PATH
 ENV RBENV_ROOT /usr/local/rbenv
